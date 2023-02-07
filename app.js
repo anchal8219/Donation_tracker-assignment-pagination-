@@ -8,23 +8,36 @@ const app=express();
 
 //import routes
 const authRoute = require('./routes/auth');
-const donRoute = require('./routes/donatorDetails') ;
+// const donRoute = require('./routes/donatorDetails') ;
 
 dotenv.config();
-const PORT=process.env.PORT || 4000;
+const PORT=process.env.PORT || 3000;
 
 app.use(express.static('public'));
 
-mongoose.connect(process.env.DB_URI,()=>{
-    console.log('connected')
-})
+// mongoose.connect(process.env.DB_URI,()=>{
+//     console.log('connected')
+// })
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.DB_URI,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(
+    ()=>{
+        console.log('connected')
+    },
+    (error)=>{
+        console.log('not connected'+ error)
+    }
+)    
+    
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json()); 
 
 //routes middleware
 app.use('/api/user',authRoute);
-app.use('/api/user',donRoute);
+
 
 app.set("view engine", "ejs")
 
