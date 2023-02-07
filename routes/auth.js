@@ -1,14 +1,33 @@
-const { signup, login ,pagination} = require('../controllers/userController');
+const signup = require('../controllers/signup');
+const login = require('../controllers/login');
+const forgetpass = require('../controllers/forgetpassword');
 
 const router = require('express').Router();
 
-router.post('/signup',signup)
 
-router.post('/login', login)
+// signup
 
-router.get('/paginate', pagination)
+router.post('/signup',signup.post);
+router.get('/signup',signup.get);
+router.get('/signup/verifyotp/:email',signup.verifyotp);
+router.post('/signup/verifyotp/:email',signup.checkotp);
+// router.post('/signup',signup)
+// router.get('/signup/verifyotp',verifyotp);
+// router.post('/signup/verifyotp',checkotp);
 
 
+// router.post('/login', login)
+
+//--admin/login
+router.post('/login',login.post);
+router.get('/login',login.get);
+router.get("/login/forgetpass",forgetpass.get_enteremail);
+router.post("/login/forgetpass",forgetpass.post_enteremail);
+router.post("/login/forgetpass/verification",forgetpass.post_otp_verification);
+router.post("/login/forgetpass/verified",forgetpass.Set_password);
+
+//--admin/dashboard
+router.get('/dashboard/:id',dashboard.get);
 
 module.exports = router;
 
