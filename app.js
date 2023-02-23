@@ -15,21 +15,38 @@ const PORT=process.env.PORT || 3000;
 
 app.use(express.static('public'));
 
+//connection 
+
 // mongoose.connect(process.env.DB_URI,()=>{
 //     console.log('connected')
 // })
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_URI,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(
-    ()=>{
-        console.log('connected')
-    },
-    (error)=>{
-        console.log('not connected'+ error)
-    }
-)    
+
+
+//      or
+mongoose.set('strictQuery', true);
+mongoose
+  .connect(process.env.DB_URI)
+  .then(() => {
+    console.log('connected to db');
+  })
+  .catch((err) => {
+    console.log('err');
+  });
+
+
+//  or 
+// mongoose.Promise = global.Promise;
+// mongoose.connect(process.env.DB_URI,{
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// }).then(
+//     ()=>{
+//         console.log('connected')
+//     },
+//     (error)=>{
+//         console.log('not connected'+ error)
+//     }
+// )    
     
 
 app.use(express.urlencoded({extended: true}));
